@@ -1,0 +1,22 @@
+#!/usr/bin/env nbb
+;; The kekkai CLI entry point.
+;;
+;;   nbb --classpath "<siblings>" bin/kekkai.cljs <command> [args…]
+;;
+;; or, from a checkout with the siblings next to it, `npm run kekkai -- ssh judah`.
+;; The classpath is explicit because nbb.edn with :deps makes nbb shell out to
+;; bb, which this workspace retired as a script host (ADR-2607173000).
+(ns kekkai-cli
+  (:require [kekkai.cli.main :as main]))
+
+;; argv layout differs between `nbb script args` and `nbb --classpath X script
+;; args`, so find this script and take everything after it rather than guessing
+;; a prefix length.
+(def argv (vec (js->clj (.-argv js/process))))
+(def after-script
+  (let [i (first (keep-indexed
+                  (fn [i a] (when (re-find #"kekkai\.cljs$" (str a)) i))
+                  argv))]
+    (if i (subvec argv (inc i)) [])))
+
+(apply main/-main after-script)

@@ -1,0 +1,5 @@
+;; Source paths only — deliberately NO :deps. An `nbb.edn` with `:deps` makes
+;; nbb shell out to bb (babashka), which this workspace retired as a script
+;; host (ADR-2607173000) and which CI does not have. Siblings go on the command
+;; line; `npm run kekkai` carries the full classpath.
+{:paths ["src"]}
