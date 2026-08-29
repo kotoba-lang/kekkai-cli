@@ -7,6 +7,8 @@ netmap, run a node, and `ssh` across the mesh.
 kekkai keygen authority                  # the control plane's signing identity
 kekkai keygen --node-id judah            # a node's Noise identity
 kekkai netmap publish --plane plane.edn --authority authority.edn
+kekkai desired publish --input desired.edn --authority authority.edn \
+  --roots ssh://asher/var/lib/kekkai,ssh://judah/var/lib/kekkai
 kekkai relay --config relay.edn --tailnet fleet --version 1
 kekkai up --config node-judah.edn
 kekkai ssh judah                         # ← the point
@@ -109,6 +111,35 @@ tailnet fleet v1   self main-2
 `--authority` is required and is **never read from the envelope**: an envelope
 carrying the only copy of its signer's key would authenticate itself.
 
+## `kekkai desired publish` / `pull`
+
+Publishes arbitrary signed desired state without a JVM or hosted control
+plane. The input is the same contract the JVM Kekkai verifier accepts:
+
+```clojure
+{:kind :murakumo/apps
+ :subject "murakumo/fleet/apps"
+ :epoch 1
+ :previous-cid nil
+ :payload {:murakumo/schema "murakumo.desired-apps/v1" :apps []}}
+```
+
+```bash
+kekkai desired publish --input desired.edn --authority authority.edn \
+  --roots ssh://asher/var/lib/kekkai,ssh://judah/var/lib/kekkai \
+  --min-copies 2
+
+kekkai desired pull --subject murakumo/fleet/apps \
+  --authority authority.edn \
+  --roots ssh://asher/var/lib/kekkai,ssh://judah/var/lib/kekkai \
+  --kind murakumo/apps
+```
+
+Each immutable envelope and payload has a CIDv1; mutable heads carry only the
+latest CID/epoch. Equal-epoch disagreement, rollback, an untrusted signer, or a
+failed mirror quorum stops the command. Roots can be local paths or validated
+`ssh://host/absolute/path` locations. No Cloudflare service is involved.
+
 ## Two things learned by running it
 
 **Give the relay its own keypair.** `kekkai relay --config X` uses `X`'s
@@ -126,7 +157,8 @@ side — which is also the honest deployment shape.
 ## Running it
 
 Siblings are expected next to this checkout (`../kekkai`, `../kekkai-node`,
-`../bytes`, `../noise`, `../org-ietf-dns`, `../org-ietf-turn`). The classpath is
+`../bytes`, `../noise`, `../org-ietf-dns`, `../org-ietf-turn`,
+`../tech-ipfs-specs-ipns`). The classpath is
 explicit because an `nbb.edn` with `:deps` makes nbb shell out to `bb`, which
 this workspace retired as a script host (ADR-2607173000).
 

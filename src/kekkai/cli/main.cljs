@@ -8,6 +8,7 @@
   -A -L 8080:localhost:80` mean what an ssh user expects."
   (:require [clojure.string :as str]
             [kekkai.cli.commands :as commands]
+            [kekkai.cli.desired :as desired]
             [kekkai.cli.publish :as publish]
             [kekkai.cli.ssh :as ssh]))
 
@@ -27,6 +28,8 @@ USAGE
   kekkai keygen authority [--out FILE]
   kekkai netmap publish --plane FILE --authority FILE [--out DIR] [--node ID]
   kekkai netmap verify <file> --authority SPKI_B64
+  kekkai desired publish --input FILE --authority FILE --roots A,B [--min-copies N]
+  kekkai desired pull --subject ID --authority FILE_OR_SPKI --roots A,B [--kind K]
 
 COMMON OPTIONS
   --config FILE     node config (default ./kekkai-node.edn, then ~/.kekkai/node.edn)
@@ -64,7 +67,8 @@ The netmap decides reachability. Nothing here can grant what it does not.")
 
 (def value-flags
   #{"--config" "--port" "--out" "--node-id" "--node" "--plane" "--authority"
-    "--forward" "--tailnet" "--version" "--host" "--user"})
+    "--forward" "--tailnet" "--version" "--host" "--user" "--input" "--roots"
+    "--min-copies" "--subject" "--min-epoch" "--kind"})
 
 (defn- die [msg code]
   (println (str "kekkai: " msg))
@@ -139,6 +143,29 @@ The netmap decides reachability. Nothing here can grant what it does not.")
           (commands/verify {:netmap-file file :authority authority}))
 
         (die "kekkai netmap: expected `publish` or `verify`" 64))
+
+      ("desired")
+      (case (first positional)
+        "publish"
+        (let [input (flag rest* "--input") authority (flag rest* "--authority")
+              roots (flag rest* "--roots")]
+          (when-not (and input authority roots)
+            (die "kekkai desired publish needs --input, --authority, and --roots" 64))
+          (desired/publish-command
+           {:input input :authority-file authority :roots-csv roots
+            :min-copies (some-> (flag rest* "--min-copies") parse-long)}))
+
+        "pull"
+        (let [subject (flag rest* "--subject") authority (flag rest* "--authority")
+              roots (flag rest* "--roots")]
+          (when-not (and subject authority roots)
+            (die "kekkai desired pull needs --subject, --authority, and --roots" 64))
+          (desired/pull-command
+           {:subject subject :authority-value authority :roots-csv roots
+            :min-epoch (some-> (flag rest* "--min-epoch") parse-long)
+            :kind (flag rest* "--kind")}))
+
+        (die "kekkai desired: expected `publish` or `pull`" 64))
 
       ("help" "--help" "-h" nil) (println usage)
 
