@@ -2,15 +2,11 @@
   "name": "kekkai-cli",
   "private": true,
   "description": "One command line for the kekkai overlay: keys, signed netmaps, an agent, and ssh over the mesh.",
-  "dependencies": {
-    "@noble/ciphers": "^1.2.1",
-    "@noble/curves": "^1.8.1"
-  },
   "devDependencies": {
     "nbb": "^1.4.208"
   },
   "scripts": {
-    "kekkai": "nbb --classpath \"src:test:../kekkai/src:../kekkai-node/src:../bytes/src:../noise/src:../org-ietf-dns/src:../org-ietf-turn/src:../tech-ipfs-specs-ipns/src\" bin/kekkai.cljs",
-    "test": "nbb --classpath \"src:test:../kekkai/src:../kekkai-node/src:../bytes/src:../noise/src:../org-ietf-dns/src:../org-ietf-turn/src:../tech-ipfs-specs-ipns/src\" run-tests.cljs"
+    "kekkai": "nbb --classpath \"src:test:../kekkai/src:../kekkai-node/src:../bytes/src:../noise/src:../org-ietf-dns/src:../org-ietf-turn/src\" bin/kekkai.cljs",
+    "test": "nbb --classpath \"src:test:../kekkai/src:../kekkai-node/src:../bytes/src:../noise/src:../org-ietf-dns/src:../org-ietf-turn/src\" run-tests.cljs"
   }
 }
