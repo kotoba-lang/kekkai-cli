@@ -21,7 +21,7 @@
   that get signed are exactly what `pr-str` produces with namespace-map
   printing pinned off, because that is what the JVM publisher signs and what
   both verifiers already accept."
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             ["node:crypto" :as crypto]))
 
 (defn encode-payload

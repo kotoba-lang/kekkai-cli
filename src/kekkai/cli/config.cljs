@@ -4,7 +4,7 @@
   Deliberately the same map `kekkai.node.agent/start` already takes, read from
   the same `kekkai-node.edn` its README documents — this CLI is a front end for
   that agent, not a second configuration system with its own vocabulary."
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             ["node:fs" :as fs]
             ["node:os" :as os]
             ["node:path" :as path]))

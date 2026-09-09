@@ -1,7 +1,7 @@
 (ns kekkai.cli.commands
   "The commands that are not `ssh`: keys, verification, running an agent or a
   relay, and reading a node's own state."
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             [kekkai.cli.config :as config]
             [kekkai.cli.sign :as sign]
             [kekkai.node.agent :as agent]

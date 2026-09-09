@@ -20,7 +20,7 @@
     127.0.0.1, and it dies with the process. A long-lived forward is
     `kekkai up --forward`, which is a different intent and should look
     different."
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             [kekkai.cli.config :as config]
             [kekkai.node.agent :as agent]
             [kekkai.node.netmap :as netmap]

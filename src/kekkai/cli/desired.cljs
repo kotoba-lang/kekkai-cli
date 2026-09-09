@@ -3,7 +3,7 @@
   implementation of the JVM envelope and mirror contract; it never shells a
   Clojure runtime."
   (:require [cljs.reader :as reader]
-            [clojure.string :as str]
+            [kotoba.lang.text :as str]
             [ipns.core :as ipns]
             [kekkai.cli.sign :as sign]
             ["node:child_process" :as child]

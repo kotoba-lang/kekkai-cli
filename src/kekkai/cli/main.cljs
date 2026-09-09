@@ -6,7 +6,7 @@
   function. The rule it follows: **everything after the subcommand's own
   arguments is passed through untouched**, which is what lets `kekkai ssh judah
   -A -L 8080:localhost:80` mean what an ssh user expects."
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             [kekkai.cli.commands :as commands]
             [kekkai.cli.desired :as desired]
             [kekkai.cli.publish :as publish]
