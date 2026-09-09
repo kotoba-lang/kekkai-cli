@@ -13,7 +13,7 @@
   from the sibling checkout rather than vendored: a copy here would be a fourth
   thing to keep in step, and a stale copy would make this test pass while the
   real contract moved."
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             [cljs.reader :as reader]
             [cljs.test :refer [deftest is testing]]
             [kekkai.cli.sign :as sign]

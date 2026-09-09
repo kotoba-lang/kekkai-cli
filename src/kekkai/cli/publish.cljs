@@ -11,7 +11,7 @@
   of truth and it is deliberately the *whole* plane rather than one node's view
   — a netmap is a projection, and projecting each node separately from separate
   files is how two nodes end up disagreeing about who is in the tailnet."
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             [kekkai.acl :as acl]
             [kekkai.cli.sign :as sign]
             [kekkai.netmap :as netmap]
