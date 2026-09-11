@@ -164,7 +164,7 @@ this workspace retired as a script host (ADR-2607173000).
 
 ```bash
 npm install
-npm run kekkai -- ssh judah      # or nbb --classpath "…" bin/kekkai.cljs ssh judah
+npm run kekkai -- ssh judah      # or nbb --classpath "…" bin/kekkai.cljk ssh judah
 npm test
 ```
 

@@ -6,7 +6,7 @@
     "nbb": "^1.4.208"
   },
   "scripts": {
-    "kekkai": "nbb --classpath \"src:test:../kekkai/src:../kekkai-node/src:../bytes/src:../noise/src:../org-ietf-dns/src:../org-ietf-turn/src\" bin/kekkai.cljs",
-    "test": "nbb --classpath \"src:test:../kekkai/src:../kekkai-node/src:../bytes/src:../noise/src:../org-ietf-dns/src:../org-ietf-turn/src\" run-tests.cljs"
+    "kekkai": "nbb --classpath \"src:test:../kekkai/src:../kekkai-node/src:../bytes/src:../noise/src:../org-ietf-dns/src:../org-ietf-turn/src\" bin/kekkai.cljk",
+    "test": "nbb --classpath \"src:test:../kekkai/src:../kekkai-node/src:../bytes/src:../noise/src:../org-ietf-dns/src:../org-ietf-turn/src\" run-tests.cljk"
   }
 }
