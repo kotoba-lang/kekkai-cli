@@ -1,7 +1,7 @@
-#!/usr/bin/env nbb
+#!/usr/bin/env kbb
 ;; The kekkai CLI entry point.
 ;;
-;;   nbb --classpath "<siblings>" bin/kekkai.cljk <command> [args…]
+;;   kbb --backend sci --classpath "<siblings>" bin/kekkai.cljk <command> [args…]
 ;;
 ;; or, from a checkout with the siblings next to it, `npm run kekkai -- ssh judah`.
 ;; The classpath is explicit because nbb.edn with :deps makes nbb shell out to
@@ -9,7 +9,7 @@
 (ns kekkai-cli
   (:require [kekkai.cli.main :as main]))
 
-;; argv layout differs between `nbb script args` and `nbb --classpath X script
+;; argv layout differs between `nbb script args` and `kbb --backend sci --classpath X script
 ;; args`, so find this script and take everything after it rather than guessing
 ;; a prefix length.
 (def argv (vec (js->clj (.-argv js/process))))
