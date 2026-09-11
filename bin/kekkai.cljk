@@ -1,7 +1,7 @@
 #!/usr/bin/env nbb
 ;; The kekkai CLI entry point.
 ;;
-;;   nbb --classpath "<siblings>" bin/kekkai.cljs <command> [args…]
+;;   nbb --classpath "<siblings>" bin/kekkai.cljk <command> [args…]
 ;;
 ;; or, from a checkout with the siblings next to it, `npm run kekkai -- ssh judah`.
 ;; The classpath is explicit because nbb.edn with :deps makes nbb shell out to
