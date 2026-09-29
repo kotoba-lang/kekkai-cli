@@ -15,7 +15,7 @@
 (def argv (vec (js->clj (.-argv js/process))))
 (def after-script
   (let [i (first (keep-indexed
-                  (fn [i a] (when (re-find #"kekkai\.cljs$" (str a)) i))
+                  (fn [i a] (when (re-find #"kekkai\.clj[sk]$" (str a)) i))
                   argv))]
     (if i (subvec argv (inc i)) [])))
 
