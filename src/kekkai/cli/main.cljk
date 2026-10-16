@@ -71,6 +71,7 @@ The netmap decides reachability. Nothing here can grant what it does not.")
     (when-not (and port (<= 1 port 65535))
       (throw (ex-info (str option " expects a port from 1 to 65535")
                       {:type :kekkai/invalid-ssh-port
+                       :exit-code 64
                        :option option
                        :value value})))
     port))
@@ -100,7 +101,9 @@ The netmap decides reachability. Nothing here can grant what it does not.")
                                                (parse-ssh-port arg value))
                      "--user" (assoc result :login value)))
             (throw (ex-info (str arg " needs a value")
-                            {:type :kekkai/missing-option-value :option arg})))
+                            {:type :kekkai/missing-option-value
+                             :exit-code 64
+                             :option arg})))
 
           (contains? ssh/ssh-options-taking-a-value arg)
           (if value
@@ -217,4 +220,4 @@ The netmap decides reachability. Nothing here can grant what it does not.")
     (dispatch (vec args))
     (catch :default e
       (println (str "kekkai: " (or (ex-message e) (str e))))
-      (.exit js/process 70))))
+      (.exit js/process (or (:exit-code (ex-data e)) 70)))))

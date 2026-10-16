@@ -32,7 +32,11 @@
   (is (thrown? js/Error (main/parse-ssh-options ["--config"])))
   (is (thrown? js/Error (main/parse-ssh-options ["-p"])))
   (is (thrown? js/Error (main/parse-ssh-options ["--port" "22oops"])))
-  (is (thrown? js/Error (main/parse-ssh-options ["--port" "65536"]))))
+  (is (thrown? js/Error (main/parse-ssh-options ["--port" "65536"])))
+  (is (= 64 (try
+              (main/parse-ssh-options ["-p" "0"])
+              0
+              (catch :default e (:exit-code (ex-data e)))))))
 
 (deftest the-destination-goes-after-the-options-and-before-the-command
   (testing "ssh is positional — `ssh [options] destination [command]` — so the
