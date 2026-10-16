@@ -14,6 +14,30 @@
 (deftest the-help-command-does-not-exit-nonzero
   (is (nil? (main/dispatch ["help"]))))
 
+(deftest kekkai-ssh-options-are-consumed-before-openssh
+  (is (= {:config-file "/tmp/node.edn"
+          :port 2200
+          :login "jun"
+          :ssh-args ["-i" "client-key" "-o" "BatchMode=yes"
+                     "127.0.0.1" "printf" "--port"]}
+         (main/parse-ssh-options
+          ["--config" "/tmp/node.edn" "--port" "2200" "--user" "jun"
+           "-i" "client-key" "-o" "BatchMode=yes"
+           "127.0.0.1" "printf" "--port"])))
+  (is (= ["-o" "BatchMode=yes" "uptime"]
+         (:ssh-args (main/parse-ssh-options
+                     ["-o" "BatchMode=yes" "uptime"]))))
+  (is (= {:config-file nil :port 2200 :login nil :ssh-args ["-A"]}
+         (main/parse-ssh-options ["-p" "2200" "-A"])))
+  (is (thrown? js/Error (main/parse-ssh-options ["--config"])))
+  (is (thrown? js/Error (main/parse-ssh-options ["-p"])))
+  (is (thrown? js/Error (main/parse-ssh-options ["--port" "22oops"])))
+  (is (thrown? js/Error (main/parse-ssh-options ["--port" "65536"])))
+  (is (= 64 (try
+              (main/parse-ssh-options ["-p" "0"])
+              0
+              (catch :default e (:exit-code (ex-data e)))))))
+
 (deftest the-destination-goes-after-the-options-and-before-the-command
   (testing "ssh is positional — `ssh [options] destination [command]` — so the
             destination has exactly one correct place. The first version of this

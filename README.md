@@ -45,8 +45,10 @@ kekkai ssh <node> [--user U] [--port N] [ssh args…]
 Starts an agent, waits for the overlay session, opens an ephemeral forwarder on
 127.0.0.1, and hands the port to the **real** `ssh` with inherited stdio — so
 keys, agents, `~/.ssh/config`, `-J`, `-L` and interactive prompts all behave
-exactly as they always do. Everything after the node id is passed through
-untouched.
+exactly as they always do. Kekkai consumes its own `--config`, `--port`, and
+`--user` options; OpenSSH's `-p N` is an alias for the remote port reached
+through the overlay. Other OpenSSH flags, an explicit destination, and the
+remote command keep their usual order.
 
 It refuses before starting anything when the netmap does not grant the edge:
 
