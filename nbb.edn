@@ -1,10 +1,5 @@
-;; Source paths only — deliberately NO :deps. An `nbb.edn` with `:deps` makes
-;; nbb shell out to bb (babashka), which this workspace retired as a script
-;; host (ADR-2607173000) and which CI does not have. Siblings go on the command
-;; line; `npm run kekkai` carries the full classpath.
-{:paths ["src"]
- :deps {
-        ;; kotoba.lang.text, not clojure.string. Pinned as an explicit floor:
-        ;; tools.deps takes the NEWEST sha it is shown, so without a floor here
-        ;; this repo silently rides whatever a sibling happens to name.
-        io.github.kotoba-lang/text {:git/sha "2ee6dce2ca944decd001f9378868dd703fc3e741"}}}
+;; Source paths only — deliberately no :deps. NBB shells out to Babashka for
+;; Git dependencies, but the `kbb --backend sci` runtime supplies Kotoba's
+;; standard library itself. Sibling project sources go on the command line;
+;; package.json carries the complete classpath.
+{:paths ["src"]}
